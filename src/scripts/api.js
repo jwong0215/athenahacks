@@ -49,5 +49,26 @@ export async function joinSession(sessionId) {
 
 export async function getUserSubjects(userId) {
   const res = await fetch(`/api/users/${userId}/subjects`);
-  return res.json();    // returns ['#linguistics', '#history']
+  return res.json();    // returns linguistics, history
+
+
+}
+
+export async function getSession(sessionId) {
+  const res = await fetch(`/api/sessions/${sessionId}`);
+  return res.json();
+}
+
+export async function getMessages(sessionId) {
+  const res = await fetch(`/api/messages/${sessionId}`);
+  return res.json();
+}
+
+export async function postMessage(data) {
+  const res = await fetch('/api/messages', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data)
+  });
+  return res.json();
 }

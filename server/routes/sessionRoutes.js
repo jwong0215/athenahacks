@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Session = require('../models/Session');
 
-// GET all sessions (with optional search by tag/title)
+// get all sessions (with optional search by tag/title)
 router.get('/', async (req, res) => {
   try {
     const { search } = req.query;
@@ -13,7 +13,6 @@ router.get('/', async (req, res) => {
         { title: { $regex: search, $options: 'i' } },
         { subject: { $regex: search, $options: 'i' } },
         { goal: { $regex: search, $options: 'i' } },
-        { intent: { $regex: search, $options: 'i' } }
       ];
     }
 
@@ -25,7 +24,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-// POST create a new session
+// post create a new session
 router.post('/', async (req, res) => {
   try {
     const session = new Session(req.body);
@@ -36,7 +35,7 @@ router.post('/', async (req, res) => {
   }
 });
 
-// PATCH join a session (add yourself to participants/increment count)
+// patch join a session (add yourself to participants/increment count)
 router.patch('/:id/join', async (req, res) => {
   try {
     const session = await Session.findByIdAndUpdate(
@@ -47,6 +46,17 @@ router.patch('/:id/join', async (req, res) => {
     res.json(session);
   } catch (err) {
     res.status(400).json({ error: err.message });
+  }
+});
+
+// get a single session by ID                      // ← ADD
+router.get('/:id', async (req, res) => {
+  try {
+    const session = await Session.findById(req.params.id);
+    if (!session) return res.status(404).json({ error: 'Session not found' });
+    res.json(session);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 });
 

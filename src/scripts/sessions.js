@@ -34,8 +34,7 @@ function renderSessions(sessions) {
 
 window.handleJoin = async function(sessionId) {
   await joinSession(sessionId);
-  alert('Joined!');
-  loadSessions();
+  window.location.href = `/session.html?id=${sessionId}`; // redirect to session page
 };
 
 async function loadSubjectOptions() {
@@ -83,7 +82,7 @@ function setupSearch() {
     .addEventListener('input', loadSessions);
 }
 
-// Kick everything off
+// kick everything off
 document.addEventListener('DOMContentLoaded', () => {
   loadSessions();
   setupCreateForm();
