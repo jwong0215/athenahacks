@@ -11,13 +11,7 @@
 
   <!-- search + filter -->
   <div>
-    <input id="search-input" type="text" placeholder="Search by subject, course, or title..." />
-    <select id="visibility-filter">
-      <option value="all">All</option>
-      <option value="public">Public</option>
-      <option value="friends-only">Friends Only</option>
-      <option value="private">Private</option>
-    </select>
+    <input id="search-input" type="text" placeholder="Search by subject or title..." />
   </div>
 
   <!-- create session button + description -->
@@ -25,16 +19,17 @@
   <div id="create-form-container" style="display:none;">
     <form id="create-session-form">
       <input id="session-title" type="text" placeholder="Session title" required />
-      <input id="session-subject" type="text" placeholder="Subject (e.g. Math)" required />
-      <input id="session-course" type="text" placeholder="Course (optional, e.g. CS101)" />
+      <select id="session-subject" required>
+        <option value="">Select a subject</option>
+      </select>  
       <select id="session-intent">
         <option value="focus">Focus (silent)</option>
         <option value="help">Help (Q&A)</option>
       </select>
-      <select id="session-visibility">
-        <option value="public">Public</option>
-        <option value="friends-only">Friends Only</option>
-        <option value="private">Private</option>
+      <select id="session-goal">
+        <option value=""general">General</option>
+        <option value="homework">Homework</option>
+        <option value="exam prep">Exam prep</option>
       </select>
       <button type="submit">Create</button>
     </form>
@@ -47,32 +42,3 @@
 </body>
 </html>
 ```
-
----
-
-## Final File Structure After All Steps
-```
-project/
-  server/
-    models/
-      Session.js          ← NEW
-    routes/
-      aiRoutes.js
-      sessionRoutes.js    ← NEW
-    utils/
-      elevenLabs.js
-      openai.js
-    package.json
-    server.js             ← EDITED
-  src/
-    scripts/
-      api.js              ← EDITED
-      app.js
-      sessions.js         ← NEW
-    styles/
-      main.css
-    index.html
-    sessions.html         ← NEW
-  .env                    ← EDITED (add MONGO_URI)
-  package.json
-  README.md

@@ -4,6 +4,7 @@ const cors = require('cors');
 const aiRoutes = require('./routes/aiRoutes');
 const mongoose = require('mongoose');
 const sessionRoutes = require('./routes/sessionRoutes');
+const userRoutes = require('./routes/userRoutes');
 
 dotenv.config(); // Load environment variables from .env file
 const connectDB = require('./utils/db');

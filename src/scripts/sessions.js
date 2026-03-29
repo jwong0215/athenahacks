@@ -1,12 +1,11 @@
-import { getSessions, createSession, joinSession } from './api.js';
+import { getSessions, createSession, joinSession, getUserSubjects } from './api.js';
 
-let allSessions = [];
+const TEMP_USER_ID = 'temp-user'; // Replace with real user ID from auth system
 
 async function loadSessions() {
   const search = document.getElementById('search-input').value;
-  const visibility = document.getElementById('visibility-filter').value;
-  allSessions = await getSessions(search, visibility);
-  renderSessions(allSessions);
+  const sessions = await getSessions(search, visibility);
+  renderSessions(sessions);
 }
 
 function renderSessions(sessions) {
@@ -23,10 +22,10 @@ function renderSessions(sessions) {
     card.className = 'session-card';
     card.innerHTML = `
       <h3>${session.title}</h3>
-      <p>${session.subject} ${session.course ? '· ' + session.course : ''}</p>
+      <span class="tag">${session.subject} </span>
       <span class="tag">#${session.intent}</span>
-      <span class="tag">${session.visibility}</span>
-      <p>${session.participants.length} studying</p>
+      <span class="tag">${session.goal}</span>
+      <p>${session.participantCount} studying</p>
       <button onclick="handleJoin('${session._id}')">Join</button>
     `;
     container.appendChild(card);
@@ -34,11 +33,22 @@ function renderSessions(sessions) {
 }
 
 window.handleJoin = async function(sessionId) {
-  const userId = 'temp-user'; // replace with real user ID once you have auth
-  await joinSession(sessionId, userId);
+  await joinSession(sessionId);
   alert('Joined!');
   loadSessions();
 };
+
+async function loadSubjectOptions() {
+  const subjects = await getUserSubjects(TEMP_USER_ID);
+  const select = document.getElementById('session-subject');
+  select.innerHTML = '<option value="">Select a subject</option>';
+  subjects.forEach(subject => {
+    const option = document.createElement('option');
+    option.value = subject;
+    option.textContent = subject;
+    select.appendChild(option);
+  });
+}
 
 function setupCreateForm() {
   const form = document.getElementById('create-session-form');
@@ -46,8 +56,9 @@ function setupCreateForm() {
   const formContainer = document.getElementById('create-form-container');
 
   toggleBtn.addEventListener('click', () => {
-    formContainer.style.display =
-      formContainer.style.display === 'none' ? 'block' : 'none';
+    const isHidden = formContainer.style.display === 'none';
+    formContainer.style.display = isHidden ? 'block' : 'none';
+    if (isHidden) loadSubjectOptions(); // Load subjects when showing form
   });
 
   form.addEventListener('submit', async (e) => {
@@ -55,11 +66,10 @@ function setupCreateForm() {
     const data = {
       title: document.getElementById('session-title').value,
       subject: document.getElementById('session-subject').value,
-      course: document.getElementById('session-course').value,
       intent: document.getElementById('session-intent').value,
-      visibility: document.getElementById('session-visibility').value,
-      host: 'temp-user', // replace with real user ID
-      participants: ['temp-user']
+      goal: document.getElementById('session-goal').value,
+      host: TEMP_USER_ID,
+      participantCount: 1
     };
     await createSession(data);
     formContainer.style.display = 'none';
@@ -71,8 +81,6 @@ function setupCreateForm() {
 function setupSearch() {
   document.getElementById('search-input')
     .addEventListener('input', loadSessions);
-  document.getElementById('visibility-filter')
-    .addEventListener('change', loadSessions);
 }
 
 // Kick everything off

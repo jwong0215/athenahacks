@@ -5,18 +5,15 @@ const Session = require('../models/Session');
 // GET all sessions (with optional search by tag/title)
 router.get('/', async (req, res) => {
   try {
-    const { search, visibility } = req.query;
+    const { search } = req.query;
     let filter = {};
-
-    if (visibility && visibility !== 'all') {
-      filter.visibility = visibility;
-    }
 
     if (search) {
       filter.$or = [
         { title: { $regex: search, $options: 'i' } },
         { subject: { $regex: search, $options: 'i' } },
-        { course: { $regex: search, $options: 'i' } }
+        { goal: { $regex: search, $options: 'i' } },
+        { intent: { $regex: search, $options: 'i' } }
       ];
     }
 
@@ -39,13 +36,12 @@ router.post('/', async (req, res) => {
   }
 });
 
-// PATCH join a session (add yourself to participants)
+// PATCH join a session (add yourself to participants/increment count)
 router.patch('/:id/join', async (req, res) => {
   try {
-    const { userId } = req.body;
     const session = await Session.findByIdAndUpdate(
       req.params.id,
-      { $addToSet: { participants: userId } }, // $addToSet avoids duplicates
+      { $inc: { participantCount: 1 } },
       { new: true }
     );
     res.json(session);
