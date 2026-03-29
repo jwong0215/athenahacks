@@ -2,6 +2,8 @@ const express = require('express');
 const dotenv = require('dotenv');
 const cors = require('cors');
 const aiRoutes = require('./routes/aiRoutes');
+const mongoose = require('mongoose');
+const sessionRoutes = require('./routes/sessionRoutes');
 
 dotenv.config(); // Load environment variables from .env file
 const connectDB = require('./utils/db');
@@ -11,6 +13,11 @@ connectDB();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+
+// Connect to MongoDB
+mongoose.connect(process.env.MONGO_URI)
+  .then(() => console.log('MongoDB connected'))
+  .catch(err => console.error('MongoDB error:', err));
 
 // Middleware
 app.use(cors());
