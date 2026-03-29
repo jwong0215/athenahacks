@@ -1,5 +1,5 @@
-import {useState, useRef, useEffect} from "react";
-import {useNavigate} from "react-router-dom";
+import { useState, useRef, useEffect, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 
 // ─── INITIAL DATA ──────────────────────────────────────────────────────────────
 
@@ -40,6 +40,54 @@ const initialChatMessages = [
 
 export const Session = (): JSX.Element => {
   const navigate = useNavigate();
+
+  // ── Video / Audio state ───────────────────────────────────────────────────
+  const [micOn, setMicOn] = useState(true);
+  const [camOn, setCamOn] = useState(true);
+  const [streamError, setStreamError] = useState<string | null>(null);
+
+  const localVideoRef = useRef<HTMLVideoElement>(null);
+  const localStreamRef = useRef<MediaStream | null>(null);
+
+  // Request camera + mic on mount; clean up on unmount
+  useEffect(() => {
+    let stream: MediaStream;
+    (async () => {
+      try {
+        stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+        localStreamRef.current = stream;
+        if (localVideoRef.current) {
+          localVideoRef.current.srcObject = stream;
+        }
+        // apply initial states
+        stream.getAudioTracks().forEach((t) => (t.enabled = micOn));
+        stream.getVideoTracks().forEach((t) => (t.enabled = camOn));
+      } catch (err: unknown) {
+        const msg = err instanceof Error ? err.message : String(err);
+        setStreamError(msg);
+      }
+    })();
+    return () => {
+      localStreamRef.current?.getTracks().forEach((t) => t.stop());
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const toggleMic = useCallback(() => {
+    setMicOn((prev) => {
+      const next = !prev;
+      localStreamRef.current?.getAudioTracks().forEach((t) => (t.enabled = next));
+      return next;
+    });
+  }, []);
+
+  const toggleCam = useCallback(() => {
+    setCamOn((prev) => {
+      const next = !prev;
+      localStreamRef.current?.getVideoTracks().forEach((t) => (t.enabled = next));
+      return next;
+    });
+  }, []);
 
   // Hidden file input ref for image import
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -105,7 +153,7 @@ export const Session = (): JSX.Element => {
       />
 
       {/* ── NAVIGATION BAR ────────────────────────────────────────────────── */}
-      <div className="absolute top-0 left-[0px] w-[1300px] h-[68px] bg-[#375cac]" />
+      <div className="absolute top-0 left-0 w-full h-[68px] bg-[#375cac]" />
 
       {/* Logo */}
       <div className="absolute top-1 left-4 w-40 h-[60px]">
@@ -187,32 +235,58 @@ export const Session = (): JSX.Element => {
         Top offset within body = (610 - 553) / 2 = ~28px → absolute top = 119 + 50 + 28 = 197px.
       */}
 
-      {/* Video feed — Traveler (top) */}
-      <img
-        className="absolute top-[197px] left-[79px] w-[502px] h-[239px] rounded-[20px] object-cover"
-        alt="Traveler video"
-        src="https://c.animaapp.com/mnc46sj2fe3S0e/img/rectangle-23.png"
-      />
-      {/* Traveler name label */}
-      <div className="absolute top-[386px] left-[94px] flex items-center">
-        <div className="relative w-[93px] h-[37px]">
+      {/* ── YOUR live camera feed (top slot) ───────────────────────────── */}
+      <div className="absolute top-[197px] left-[125px] w-[502px] h-[239px] rounded-[20px] overflow-hidden bg-[#1a1a1a] flex items-center justify-center">
+        {/* video element — always mounted; hidden when cam is off */}
+        <video
+          ref={localVideoRef}
+          autoPlay
+          muted
+          playsInline
+          className="w-full h-full object-cover"
+          style={{ display: camOn && !streamError ? "block" : "none", transform: "scaleX(-1)" }}
+        />
+        {/* Cam-off / error fallback */}
+        {(!camOn || streamError) && (
+          <div className="flex flex-col items-center justify-center gap-2">
+            <img className="w-[80px] h-[80px] opacity-40" alt="Camera off" src="https://c.animaapp.com/mnc46sj2fe3S0e/img/person.svg" />
+            {streamError && (
+              <span className="text-[#ff8080] text-[12px] text-center px-4" style={{ fontFamily: "'Inter', Helvetica" }}>
+                Camera unavailable
+              </span>
+            )}
+          </div>
+        )}
+      </div>
+      {/* Your name label */}
+      <div className="absolute top-[386px] left-[143px] flex items-center">
+        <div className="relative h-[37px] px-[15px] flex items-center">
           <div className="absolute inset-0 bg-[#8d8d8d99] rounded-full" />
-          <span className="absolute top-[11px] left-[15px] [font-family:'Inter',Helvetica] font-medium text-white text-[15.6px] leading-[15.6px] whitespace-nowrap">
-            Traveler
+          <span className="relative [font-family:'Inter',Helvetica] font-medium text-white text-[15.6px] leading-[15.6px] whitespace-nowrap">
+            You
           </span>
         </div>
       </div>
-      {/* Mic indicator — Traveler (unmuted = gray) */}
-      <div className="absolute top-[386px] left-[531px] w-[41px] h-[41px] flex items-center justify-center bg-[#d9d9d9] rounded-full">
-        <img className="w-[25px] h-[25px]" alt="Mic on" src="https://c.animaapp.com/mnc46sj2fe3S0e/img/mask-group-3.png" />
+      {/* Mic indicator — your feed */}
+      <div
+        className="absolute top-[386px] left-[571px] w-[41px] h-[41px] flex items-center justify-center rounded-full transition-colors"
+        style={{ background: micOn ? "#d9d9d9" : "#ecd0d0" }}
+      >
+        <img
+          className="w-[22px] h-[22px]"
+          alt={micOn ? "Mic on" : "Mic off"}
+          src={micOn
+            ? "https://c.animaapp.com/mnc46sj2fe3S0e/img/mask-group-3.png"
+            : "https://c.animaapp.com/mnc46sj2fe3S0e/img/mask-group-4.png"}
+        />
       </div>
 
-      {/* Video feed — Tommy Trojan (bottom, camera off) — 16px gap below Traveler feed */}
-      <div className="absolute top-[452px] left-[79px] w-[502px] h-[239px] bg-[#d9d9d9] rounded-[20px] flex items-center justify-center">
+      {/* ── Remote participant slot (bottom) — static placeholder ───────── */}
+      <div className="absolute top-[452px] left-[125px] w-[502px] h-[239px] bg-[#d9d9d9] rounded-[20px] flex items-center justify-center">
         <img className="w-[146px] h-[146px]" alt="Tommy Trojan — camera off" src="https://c.animaapp.com/mnc46sj2fe3S0e/img/person.svg" />
       </div>
       {/* Tommy Trojan name label */}
-      <div className="absolute top-[641px] left-[94px] flex items-center">
+      <div className="absolute top-[641px] left-[143px] flex items-center">
         <div className="relative w-[136px] h-[37px]">
           <div className="absolute inset-0 bg-[#8d8d8d99] rounded-full" />
           <span className="absolute top-[11px] left-[15px] [font-family:'Inter',Helvetica] font-medium text-white text-[15.6px] leading-[15.6px] whitespace-nowrap">
@@ -220,19 +294,37 @@ export const Session = (): JSX.Element => {
           </span>
         </div>
       </div>
-      {/* Mic indicator — Tommy Trojan (muted = pink) */}
-      <div className="absolute top-[641px] left-[531px] w-[41px] h-[41px] flex items-center justify-center bg-[#ecd0d0] rounded-full">
-        <img className="w-[25px] h-[25px]" alt="Mic off" src="https://c.animaapp.com/mnc46sj2fe3S0e/img/mask-group-4.png" />
+      {/* Mic indicator — Tommy Trojan (muted = pink, static) */}
+      <div className="absolute top-[641px] left-[571px] w-[41px] h-[41px] flex items-center justify-center bg-[#ecd0d0] rounded-full">
+        <img className="w-[22px] h-[22px]" alt="Mic off" src="https://c.animaapp.com/mnc46sj2fe3S0e/img/mask-group-4.png" />
       </div>
 
-      {/* Bottom controls: Mic toggle + Video toggle — 12px below Tommy feed */}
+      {/* ── Bottom controls: Mic toggle + Cam toggle ─────────────────────── */}
       <div className="absolute top-[703px] left-[79px] w-[502px] flex items-center justify-center gap-[16px]">
-        <div className="w-[47px] h-[47px] bg-[#ecd0d0] rounded-full flex items-center justify-center cursor-pointer hover:opacity-80 transition-opacity">
-          <img className="w-[29px] h-[29px]" alt="Mic" src="https://c.animaapp.com/mnc46sj2fe3S0e/img/mask-group.png" />
-        </div>
-        <div className="w-[47px] h-[47px] bg-[#d9d9d9] rounded-full flex items-center justify-center cursor-pointer hover:opacity-80 transition-opacity">
-          <img className="w-[30px] h-[30px]" alt="Video" src="https://c.animaapp.com/mnc46sj2fe3S0e/img/video.svg" />
-        </div>
+        {/* Mic toggle */}
+        <button
+          onClick={toggleMic}
+          title={micOn ? "Mute microphone" : "Unmute microphone"}
+          className="w-[47px] h-[47px] rounded-full flex items-center justify-center cursor-pointer hover:opacity-80 transition-opacity border-none outline-none"
+          style={{ background: micOn ? "#d9d9d9" : "#ecd0d0" }}
+        >
+          <img
+            className="w-[25px] h-[25px]"
+            alt={micOn ? "Mic on" : "Mic off"}
+            src={micOn
+              ? "https://c.animaapp.com/mnc46sj2fe3S0e/img/mask-group-3.png"
+              : "https://c.animaapp.com/mnc46sj2fe3S0e/img/mask-group.png"}
+          />
+        </button>
+        {/* Cam toggle */}
+        <button
+          onClick={toggleCam}
+          title={camOn ? "Turn off camera" : "Turn on camera"}
+          className="w-[47px] h-[47px] rounded-full flex items-center justify-center cursor-pointer hover:opacity-80 transition-opacity border-none outline-none"
+          style={{ background: camOn ? "#d9d9d9" : "#ecd0d0" }}
+        >
+          <img className="w-[43px] h-[43px] mt-[9px] transform translate-x-[7px]" alt={camOn ? "Cam on" : "Cam off"} src="https://c.animaapp.com/mnc46sj2fe3S0e/img/video.svg" />
+        </button>
       </div>
 
       {/* ══════════════════════════════════════════════════════════════════════
