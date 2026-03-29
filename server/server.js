@@ -18,6 +18,11 @@ app.use(express.json());
 
 // Routes
 app.use('/api/ai', aiRoutes);
+// login/signup routes
+const authRoutes = require('./routes/authRoutes');
+app.use('/api/auth', authRoutes);
+
+app.use(express.urlencoded({ extended: true }));
 
 // Start the server
 app.listen(PORT, () => {
