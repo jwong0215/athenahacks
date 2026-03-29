@@ -4,6 +4,10 @@ const cors = require('cors');
 const aiRoutes = require('./routes/aiRoutes');
 
 dotenv.config(); // Load environment variables from .env file
+const connectDB = require('./utils/db');
+
+// Connect to MongoDB
+connectDB();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
