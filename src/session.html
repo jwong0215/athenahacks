@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Session</title>
+  <link rel="stylesheet" href="styles/main.css" />
+</head>
+<body>
+
+  <!-- session title -->
+  <div id="session-header">
+    <h1 id="session-title">Loading...</h1>
+    <p id="session-tags"></p>
+  </div>
+
+  <!-- main Layout: left and right -->
+  <div id="session-layout">
+
+    <!-- left: user board -->
+    <div id="left-panel">
+      <h2>Study Room</h2>
+      <div id="user-board"></div>
+    </div>
+
+    <!-- right half: top vs bottom -->
+    <div id="right-panel">
+
+      <!-- top: participants list -->
+      <div id="participants-section">
+        <h2>Participants</h2>
+        <div id="participants-list"></div>
+      </div>
+
+      <!-- bottom: tabbed user/ai chat -->
+      <div id="chat-section">
+
+        <!-- tabs -->
+        <div id="chat-tabs">
+          <button class="tab-btn active" onclick="switchTab('user')">Group Chat</button>
+          <button class="tab-btn" onclick="switchTab('ai')">Ask AI</button>
+        </div>
+
+        <!-- user chat panel -->
+        <div id="user-chat-panel" class="chat-panel">
+          <div id="user-chat-messages" class="chat-messages"></div>
+          <form id="user-chat-form">
+            <input id="user-chat-input" type="text" placeholder="Say something..." />
+            <button type="submit">Send</button>
+          </form>
+        </div>
+
+        <!-- AI chat panel -->
+        <div id="ai-chat-panel" class="chat-panel" style="display:none;">
+          <div id="ai-chat-messages" class="chat-messages"></div>
+          <form id="ai-chat-form">
+            <input id="ai-chat-input" type="text" placeholder="Ask the AI..." />
+            <button type="submit">Ask</button>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script type="module" src="scripts/sessionScreen.js"></script>
+</body>
+</html>
