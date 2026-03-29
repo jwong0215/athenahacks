@@ -1,0 +1,235 @@
+{
+  "nodes": [
+    {
+      "id": "src/screens/LogInPage/LogInPage.tsx",
+      "label": "LogInPage",
+      "routes": [
+        "/"
+      ],
+      "dataModelId": "11:4",
+      "isRoot": true
+    },
+    {
+      "id": "src/screens/Dashboard/Dashboard.tsx",
+      "label": "Dashboard",
+      "routes": [
+        "/dashboard"
+      ]
+    },
+    {
+      "id": "src/screens/SessionHistory/SessionHistory.tsx",
+      "label": "SessionHistory",
+      "routes": [
+        "/session-history"
+      ]
+    },
+    {
+      "id": "src/screens/Session/Session.tsx",
+      "label": "Session",
+      "routes": [
+        "/session"
+      ]
+    },
+    {
+      "id": "src/screens/Profile/Profile.tsx",
+      "label": "Profile",
+      "routes": [
+        "/profile"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "id": "src/screens/LogInPage/LogInPage.tsx:26:4-to-src/screens/Dashboard/Dashboard.tsx",
+      "source": "src/screens/LogInPage/LogInPage.tsx",
+      "target": "src/screens/Dashboard/Dashboard.tsx",
+      "data": {
+        "viaRoute": "/dashboard",
+        "trigger": {
+          "element": "navigate(\"/dashboard\")",
+          "line": 26,
+          "endLine": 26,
+          "column": 4,
+          "endColumn": 26,
+          "sourceFile": "src/screens/LogInPage/LogInPage.tsx"
+        }
+      }
+    },
+    {
+      "id": "src/screens/Dashboard/Dashboard.tsx:53:25-to-src/screens/Profile/Profile.tsx",
+      "source": "src/screens/Dashboard/Dashboard.tsx",
+      "target": "src/screens/Profile/Profile.tsx",
+      "data": {
+        "viaRoute": "/profile",
+        "trigger": {
+          "element": "navigate(\"/profile\")",
+          "line": 53,
+          "endLine": 53,
+          "column": 25,
+          "endColumn": 45,
+          "sourceFile": "src/screens/Dashboard/Dashboard.tsx"
+        }
+      }
+    },
+    {
+      "id": "src/screens/Dashboard/Dashboard.tsx:62:25-to-src/screens/SessionHistory/SessionHistory.tsx",
+      "source": "src/screens/Dashboard/Dashboard.tsx",
+      "target": "src/screens/SessionHistory/SessionHistory.tsx",
+      "data": {
+        "viaRoute": "/session-history",
+        "trigger": {
+          "element": "navigate(\"/session-history\")",
+          "line": 62,
+          "endLine": 62,
+          "column": 25,
+          "endColumn": 53,
+          "sourceFile": "src/screens/Dashboard/Dashboard.tsx"
+        }
+      }
+    },
+    {
+      "id": "src/screens/Dashboard/Dashboard.tsx:218:27-to-src/screens/Session/Session.tsx",
+      "source": "src/screens/Dashboard/Dashboard.tsx",
+      "target": "src/screens/Session/Session.tsx",
+      "data": {
+        "viaRoute": "/session",
+        "trigger": {
+          "element": "navigate(\"/session\")",
+          "line": 218,
+          "endLine": 218,
+          "column": 27,
+          "endColumn": 47,
+          "sourceFile": "src/screens/Dashboard/Dashboard.tsx"
+        }
+      }
+    },
+    {
+      "id": "src/screens/SessionHistory/SessionHistory.tsx:29:25-to-src/screens/Profile/Profile.tsx",
+      "source": "src/screens/SessionHistory/SessionHistory.tsx",
+      "target": "src/screens/Profile/Profile.tsx",
+      "data": {
+        "viaRoute": "/profile",
+        "trigger": {
+          "element": "navigate(\"/profile\")",
+          "line": 29,
+          "endLine": 29,
+          "column": 25,
+          "endColumn": 45,
+          "sourceFile": "src/screens/SessionHistory/SessionHistory.tsx"
+        }
+      }
+    },
+    {
+      "id": "src/screens/SessionHistory/SessionHistory.tsx:36:25-to-src/screens/Dashboard/Dashboard.tsx",
+      "source": "src/screens/SessionHistory/SessionHistory.tsx",
+      "target": "src/screens/Dashboard/Dashboard.tsx",
+      "data": {
+        "viaRoute": "/dashboard",
+        "trigger": {
+          "element": "navigate(\"/dashboard\")",
+          "line": 36,
+          "endLine": 36,
+          "column": 25,
+          "endColumn": 47,
+          "sourceFile": "src/screens/SessionHistory/SessionHistory.tsx"
+        }
+      }
+    },
+    {
+      "id": "src/screens/Session/Session.tsx:124:23-to-src/screens/Profile/Profile.tsx",
+      "source": "src/screens/Session/Session.tsx",
+      "target": "src/screens/Profile/Profile.tsx",
+      "data": {
+        "viaRoute": "/profile",
+        "trigger": {
+          "element": "navigate(\"/profile\")",
+          "line": 124,
+          "endLine": 124,
+          "column": 23,
+          "endColumn": 43,
+          "sourceFile": "src/screens/Session/Session.tsx"
+        }
+      }
+    },
+    {
+      "id": "src/screens/Session/Session.tsx:132:23-to-src/screens/Dashboard/Dashboard.tsx",
+      "source": "src/screens/Session/Session.tsx",
+      "target": "src/screens/Dashboard/Dashboard.tsx",
+      "data": {
+        "viaRoute": "/dashboard",
+        "trigger": {
+          "element": "navigate(\"/dashboard\")",
+          "line": 132,
+          "endLine": 132,
+          "column": 23,
+          "endColumn": 45,
+          "sourceFile": "src/screens/Session/Session.tsx"
+        }
+      }
+    },
+    {
+      "id": "src/screens/Session/Session.tsx:140:23-to-src/screens/SessionHistory/SessionHistory.tsx",
+      "source": "src/screens/Session/Session.tsx",
+      "target": "src/screens/SessionHistory/SessionHistory.tsx",
+      "data": {
+        "viaRoute": "/session-history",
+        "trigger": {
+          "element": "navigate(\"/session-history\")",
+          "line": 140,
+          "endLine": 140,
+          "column": 23,
+          "endColumn": 51,
+          "sourceFile": "src/screens/Session/Session.tsx"
+        }
+      }
+    },
+    {
+      "id": "src/screens/Session/Session.tsx:162:23-to-src/screens/Dashboard/Dashboard.tsx",
+      "source": "src/screens/Session/Session.tsx",
+      "target": "src/screens/Dashboard/Dashboard.tsx",
+      "data": {
+        "viaRoute": "/dashboard",
+        "trigger": {
+          "element": "navigate(\"/dashboard\")",
+          "line": 162,
+          "endLine": 162,
+          "column": 23,
+          "endColumn": 45,
+          "sourceFile": "src/screens/Session/Session.tsx"
+        }
+      }
+    },
+    {
+      "id": "src/screens/Profile/Profile.tsx:66:23-to-src/screens/Dashboard/Dashboard.tsx",
+      "source": "src/screens/Profile/Profile.tsx",
+      "target": "src/screens/Dashboard/Dashboard.tsx",
+      "data": {
+        "viaRoute": "/dashboard",
+        "trigger": {
+          "element": "navigate(\"/dashboard\")",
+          "line": 66,
+          "endLine": 66,
+          "column": 23,
+          "endColumn": 45,
+          "sourceFile": "src/screens/Profile/Profile.tsx"
+        }
+      }
+    },
+    {
+      "id": "src/screens/Profile/Profile.tsx:74:23-to-src/screens/SessionHistory/SessionHistory.tsx",
+      "source": "src/screens/Profile/Profile.tsx",
+      "target": "src/screens/SessionHistory/SessionHistory.tsx",
+      "data": {
+        "viaRoute": "/session-history",
+        "trigger": {
+          "element": "navigate(\"/session-history\")",
+          "line": 74,
+          "endLine": 74,
+          "column": 23,
+          "endColumn": 51,
+          "sourceFile": "src/screens/Profile/Profile.tsx"
+        }
+      }
+    }
+  ]
+}
