@@ -97,7 +97,7 @@ export const LogInPage = (): JSX.Element => {
         <div className="absolute top-[439px] left-[50px] w-[204px] h-10">
           <button
             type="submit"
-            className="left-[50px] w-[202px] h-10 bg-[#063261] rounded-[10px] absolute top-0 cursor-pointer hover:bg-[#0a4a8f] transition-colors"
+            className="left-[50px] w-[100px] h-10 bg-[#063261] rounded-[10px] absolute top-0 cursor-pointer hover:bg-[#0a4a8f] transition-colors"
             aria-label="Login"
           />
           <span className="absolute top-[11px] left-[81px] [font-family:'Inter',Helvetica] font-normal text-white text-[15px] tracking-[0] leading-[normal] whitespace-nowrap pointer-events-none">

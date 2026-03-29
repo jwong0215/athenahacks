@@ -136,15 +136,15 @@
       }
     },
     {
-      "id": "src/screens/Session/Session.tsx:124:23-to-src/screens/Profile/Profile.tsx",
+      "id": "src/screens/Session/Session.tsx:172:23-to-src/screens/Profile/Profile.tsx",
       "source": "src/screens/Session/Session.tsx",
       "target": "src/screens/Profile/Profile.tsx",
       "data": {
         "viaRoute": "/profile",
         "trigger": {
           "element": "navigate(\"/profile\")",
-          "line": 124,
-          "endLine": 124,
+          "line": 172,
+          "endLine": 172,
           "column": 23,
           "endColumn": 43,
           "sourceFile": "src/screens/Session/Session.tsx"
@@ -152,15 +152,15 @@
       }
     },
     {
-      "id": "src/screens/Session/Session.tsx:132:23-to-src/screens/Dashboard/Dashboard.tsx",
+      "id": "src/screens/Session/Session.tsx:180:23-to-src/screens/Dashboard/Dashboard.tsx",
       "source": "src/screens/Session/Session.tsx",
       "target": "src/screens/Dashboard/Dashboard.tsx",
       "data": {
         "viaRoute": "/dashboard",
         "trigger": {
           "element": "navigate(\"/dashboard\")",
-          "line": 132,
-          "endLine": 132,
+          "line": 180,
+          "endLine": 180,
           "column": 23,
           "endColumn": 45,
           "sourceFile": "src/screens/Session/Session.tsx"
@@ -168,15 +168,15 @@
       }
     },
     {
-      "id": "src/screens/Session/Session.tsx:140:23-to-src/screens/SessionHistory/SessionHistory.tsx",
+      "id": "src/screens/Session/Session.tsx:188:23-to-src/screens/SessionHistory/SessionHistory.tsx",
       "source": "src/screens/Session/Session.tsx",
       "target": "src/screens/SessionHistory/SessionHistory.tsx",
       "data": {
         "viaRoute": "/session-history",
         "trigger": {
           "element": "navigate(\"/session-history\")",
-          "line": 140,
-          "endLine": 140,
+          "line": 188,
+          "endLine": 188,
           "column": 23,
           "endColumn": 51,
           "sourceFile": "src/screens/Session/Session.tsx"
@@ -184,15 +184,15 @@
       }
     },
     {
-      "id": "src/screens/Session/Session.tsx:162:23-to-src/screens/Dashboard/Dashboard.tsx",
+      "id": "src/screens/Session/Session.tsx:210:23-to-src/screens/Dashboard/Dashboard.tsx",
       "source": "src/screens/Session/Session.tsx",
       "target": "src/screens/Dashboard/Dashboard.tsx",
       "data": {
         "viaRoute": "/dashboard",
         "trigger": {
           "element": "navigate(\"/dashboard\")",
-          "line": 162,
-          "endLine": 162,
+          "line": 210,
+          "endLine": 210,
           "column": 23,
           "endColumn": 45,
           "sourceFile": "src/screens/Session/Session.tsx"
